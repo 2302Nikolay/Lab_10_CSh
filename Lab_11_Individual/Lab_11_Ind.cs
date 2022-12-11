@@ -37,7 +37,7 @@ namespace Lab_11_Individual
         public float Price { get; set; }
         public float Count { get; set; }
         public CategoryOfProduct Category { get; set;}
-        public float Discount { get; set; }
+        public int Discount { get; set; }
 
         // Метод для создания объекта продукт по данным из файла
         public static Product Create(String str)
@@ -72,7 +72,7 @@ namespace Lab_11_Individual
                 pr.Category = CategoryOfProduct.D;
             else pr.Category = CategoryOfProduct.No;
 
-            pr.Discount = Convert.ToSingle(e[6]);
+            pr.Discount = Convert.ToInt32(e[6]);
 
             return pr;
         }
@@ -118,7 +118,9 @@ namespace Lab_11_Individual
             StreamReader s_in = new StreamReader(@"C:\Users\Николай Мальцев\source\repos\Lab_11_Malzew\Data\lr11_11.csv");
 
 #if !DEBUG
-            
+            TextWriter save_out = Console.Out;
+            var new_out = new StreamWriter(@"C:\Users\Николай Мальцев\source\repos\Lab_11_Malzew\Data\lr_11_result.txt");
+            Console.SetOut(new_out);
 #endif
             List<Product> all = new List<Product>();
             try
@@ -134,10 +136,65 @@ namespace Lab_11_Individual
                 Console.WriteLine(ex.Message);
             }
 
+            // Задание 1. Определить количество товаров со скидкой более 25%
+           int count_discond = all.FindAll(pr => pr.Count > 25).Count();
+            Console.WriteLine("Задание 1\n " +
+                "____________________________\n " +
+                "Количество товаров со скидкой более 25%: {0} шт.", count_discond);
+
+            // Задание 2. Вычислите суммарный объем (в валюте) товаров, для которых не указа поставщик.
+            float no_company = (from pr in all
+                                where pr.Company == Company.No
+                                select pr.Price).Sum();
+            Console.WriteLine("\nЗадание 2\n " +
+                "__________________________\n " +
+                "Суммарный объём товаров без поставщиков: {0}$", no_company);
+
+            // Задание 3. Для каждого из 4-х поставщиков определите среднюю цену товаров.
+            float price_waka_waka = ((from pr in all
+                                where pr.Company == Company.Waka_waka
+                                select pr.Price).Sum())/(from pr in all
+                                                         where pr.Company == Company.Waka_waka
+                                                         select pr.Price).Count();
+            float price_jaromye = ((from pr in all
+                                      where pr.Company == Company.Jaromye
+                                      select pr.Price).Sum()) / (from pr in all
+                                                                 where pr.Company == Company.Jaromye
+                                                                 select pr.Price).Count();
+            float price_nestle = ((from pr in all
+                                      where pr.Company == Company.Nestle_Std
+                                      select pr.Price).Sum()) / (from pr in all
+                                                                 where pr.Company == Company.Nestle_Std
+                                                                 select pr.Price).Count();
+            float price_zoory = ((from pr in all
+                                      where pr.Company == Company.Zoory
+                                      select pr.Price).Sum()) / (from pr in all
+                                                                 where pr.Company == Company.Zoory
+                                                                 select pr.Price).Count();
+            Console.WriteLine("\nЗадание 3. Средняя цена товаров по компаниям\n " +
+                "____________________________\n" +
+                "| Waka-Waka:  {0}$     |\n" +
+                "| Jaromye:    {1}$     |\n" +
+                "| Nestle Std: {2}$     |\n" +
+                "| Zory:       {3}$     |\n" +
+                "-----------------------------\n ", price_waka_waka, price_jaromye, price_nestle, price_zoory);
+
+            // Задание 4. Найдите минимальную цену товара с учётом скидки.
+            float min_price = (from pr in all
+                               select (pr.Price-(pr.Discount*pr.Price/100))).Min();
+            Console.WriteLine("Задание 4\n " +
+                "__________________________\n " +
+                "Минимальная цена с учётом скидки: {0}$", min_price);
+
             // Console.WriteLine("Всего продуктов: {0}", all.Count);
             // foreach (var pr in all)
-               // Console.WriteLine(pr);
-            
+            // Console.WriteLine(pr);
+#if !DEBUG
+            Console.SetOut(save_out);
+            new_out.Close();
+#else
+            Console.ReadKey();
+#endif
         }
     }
 }
