@@ -74,7 +74,7 @@ namespace Лабораторная_работа_11
             StreamReader f_in = new StreamReader(@"C:\Users\Николай Мальцев\source\repos\Lab_11_Malzew\Data\Input.csv");
 #if !DEBUG
             TextWriter save_out = Console.Out;
-            var new_out = new StreamWriter(@"lr11_oyput.txt");
+            var new_out = new StreamWriter(@"C:\Users\Николай Мальцев\source\repos\Lab_11_Malzew\Data\Result.txt");
             Console.SetOut(new_out);
 #endif
             List<Person> all = new List<Person>();
