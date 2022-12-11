@@ -115,7 +115,7 @@ namespace Lab_11_Individual
     {
         static void Main(string[] args)
         {
-            StreamReader s_in = new StreamReader(@"C:\Users\Николай Мальцев\source\repos\Lab_11_Malzew\Data\lr11_11_2.csv");
+            StreamReader s_in = new StreamReader(@"C:\Users\Николай Мальцев\source\repos\Lab_11_Malzew\Data\lr11_11.csv");
 
 #if !DEBUG
             
@@ -134,9 +134,9 @@ namespace Lab_11_Individual
                 Console.WriteLine(ex.Message);
             }
 
-            Console.WriteLine("Всего продуктов: {0}", all.Count);
-            foreach (var pr in all)
-               Console.WriteLine(pr);
+            // Console.WriteLine("Всего продуктов: {0}", all.Count);
+            // foreach (var pr in all)
+               // Console.WriteLine(pr);
             
         }
     }
