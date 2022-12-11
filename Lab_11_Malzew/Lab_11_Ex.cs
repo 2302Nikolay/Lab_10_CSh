@@ -91,9 +91,9 @@ namespace Лабораторная_работа_11
                 Console.WriteLine(ex.Message);
             }
 
-            //Console.WriteLine("Всего пользователей: {0}", all.Count);
-            //foreach (var p in all)
-            //Console.WriteLine(p);
+            Console.WriteLine("Всего пользователей: {0}", all.Count);
+            foreach (var p in all)
+                Console.WriteLine(p);
 
             // Задача 1
             Console.WriteLine("*********** Задача 1 ************");
